@@ -9,12 +9,19 @@ import SwiftUI
 
 @main
 struct RideyApp: App {
+    @StateObject private var router = Router()
+    @StateObject private var registerUser = RegisterUser()
+    
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            NavigationStack(path: $router.navPath) {
+                ContentView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
+            .environmentObject(router)
+            .environmentObject(registerUser)
         }
     }
 }

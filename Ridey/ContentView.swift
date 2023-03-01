@@ -9,80 +9,157 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var router: Router
+    @EnvironmentObject var registerUser: RegisterUser
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    @State private var presentAlert = false
+    @State private var alertMessage = ""
+    @State private var selectedTab: Int = 0
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+        VStack(alignment: .leading)  {
+            
+            VStack {
+                HStack(alignment: .top) {
+                    RideyLogoView(backHandler: { })
+                    
+                    Spacer()
+                    
+                    if(registerUser.isRegisterUser) {
+                        NavigationLink(value: "MemberMainView") {
+                            Image("spider_man")
+                                .resizable()
+                                .frame(width: 60, height:60)
+                                .clipShape(Circle())
+                                .overlay(RoundedRectangle(cornerRadius: 30.0)
+                                        .stroke(BUTTON_COLOR_ORANGE, lineWidth: 2))
+                                .padding([.leading, .trailing], 20)
+                        }
+                    } else {
+                        NavigationLink(value: "LoginView") {
+                            HeaderTextView(text: "登入\\註冊")
+                        }
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                
+                ScrollView {
+                    CustomSegmentedView3(selectedSegment: $selectedTab, segments: ["尋找共乘", "創造共乘"])
+                        .padding([.top, .bottom], 10)
+                        .padding([.leading, .trailing], 10)
+                    
+                    if(selectedTab == 0) {
+                        SearchTripView()
+                    } else {
+                        CreateTripView()
                     }
+                    
+                    HStack {
+                        Image("member_icon")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(ICON_FOREGROUND_COLOR)
+                            .frame(width: 60, height:60)
+                            .clipShape(Circle()).overlay(RoundedRectangle(cornerRadius: 30.0)
+                                    .stroke(BUTTON_COLOR_ORANGE, lineWidth: 2))
+                            .onTapGesture {
+                                presentAlert = true
+                                alertMessage = "會員申請"
+                            }
+                        Spacer()
+                        
+                        NavigationLink(value: "DriverApplyView") {
+                            Image("driver_icon")
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundColor(ICON_FOREGROUND_COLOR)
+                                .frame(width: 60, height:60)
+                                .clipShape(Circle()).overlay(RoundedRectangle(cornerRadius: 30.0)
+                                        .stroke(BUTTON_COLOR_ORANGE, lineWidth: 2))
+                        }
+                        
+                        Spacer()
+                        Image("hall_icon")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(ICON_FOREGROUND_COLOR)
+                            .frame(width: 60, height:60)
+                            .clipShape(Circle()).overlay(RoundedRectangle(cornerRadius: 30.0)
+                                    .stroke(BUTTON_COLOR_ORANGE, lineWidth: 2))
+                            .onTapGesture {
+                                presentAlert = true
+                                alertMessage = "共乘大廳"
+                            }
+                    }
+                    .padding(.horizontal, 80)
+                    .padding([.top], 15)
+                    .padding([.bottom], 1)
+                    
+                    Spacer()
                 }
-            }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                .alert("功能訊息", isPresented: $presentAlert, actions: {
+                    
+                }, message: {
+                    Text(alertMessage)
+                })
             }
         }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        .navigationDestination(for: String.self) { viewName in
+            
+            if(viewName == "MemberMainView") {
+                MemberMainView()
+            } else if(viewName == "MemberTripListView") {
+                MemberTripListView()
+            }  else if(viewName == "TripMatchListView") {
+                TripMatchListView()
+            } else if(viewName == "TripCreateCompleteView") {
+                TripCreateCompleteView()
+            } else if(viewName == "TripApplyView") {
+                TripApplyView()
+            } else if(viewName == "LoginView") {
+                LoginView()
+            } else if(viewName == "RegisterGoogleView") {
+                RegisterGoogleView()
+            } else if(viewName == "RegisterEMailView") {
+                RegisterEMailView()
+            } else if(viewName == "RegisterEMailVerificationView") {
+                RegisterEMailVerificationView()
+            } else if(viewName == "RegisterOTPVerificationView") {
+                RegisterOTPVerificationView()
+            } else if(viewName == "RegisterMemberView") {
+                RegisterMemberView()
+            } else if(viewName == "RegisterCompleteView") {
+                RegisterCompleteView()
+            } else if(viewName == "DriverApplyView") {
+                DriverApplyView()
+            } else if(viewName == "DriverIDImageView") {
+                DriverIDImageView()
+            } else if(viewName == "DriverMemberDataView") {
+                DriverMemberDataView()
+            } else if(viewName == "DriverCarDataView") {
+                DriverCarDataView()
+            } else if(viewName == "DriverCompleteView") {
+                DriverCompleteView()
+            }  else if(viewName == "ChatListView") {
+                ChatListView()
+            } else {
+                TripDetailView()
             }
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
+
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavigationStack {
+            ContentView()
+                .environmentObject(Router())
+                .environmentObject(RegisterUser())
+        }
+        
     }
 }
