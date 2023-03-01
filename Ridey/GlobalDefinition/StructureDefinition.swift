@@ -116,3 +116,30 @@ struct BackgroundClearView: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIView, context: Context) {}
 }
+
+struct backGesture: ViewModifier {
+    @State var offset: CGSize
+    @State var path: NavigationPath
+    
+    func body(content: Content) -> some View {
+        content
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        offset = gesture.translation
+                    }
+                    .onEnded { _ in
+                        if(offset.width > 20) {
+                            withAnimation {
+                                DispatchQueue.main.async {
+                                    path.removeLast(1)
+                                }
+                            }
+                        } else {
+                            offset = .zero
+                        }
+                    }
+            )
+
+      }
+}

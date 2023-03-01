@@ -112,6 +112,7 @@ struct ChatDetailView: View {
         .onTapGesture {
             hideKeyboard()
         }
+        //.modifier(backGesture(offset: offset, path: router.navPath))
         .gesture(
             DragGesture()
                 .onChanged { gesture in
