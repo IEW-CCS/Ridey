@@ -10,7 +10,7 @@ import SwiftUI
 struct DriverIDImageView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
-    @State var isGoodPeopleDisplay: Bool = false
+    @State private var isGoodPeopleDisplay: Bool = false
 
     var body: some View {
         VStack {

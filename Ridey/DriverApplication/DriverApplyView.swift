@@ -11,6 +11,24 @@ struct DriverApplyView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
     
+    @State private var isChecked: Bool = false
+    @State private var terms: String = ""
+    @State private var termsTip: String = ""
+
+    enum DriverTermsTip: Int {
+        case na = 0
+        case termsNG = 1
+        case termsOK = 2
+        
+        var text: String {
+            switch self {
+                case .na: return ""
+                case .termsNG: return "請完整閱讀上方的會員條款"
+                case .termsOK: return "請勾選以進行下一步"
+            }
+        }
+    }
+
     var body: some View {
         VStack {
             //RideyTitleView()
@@ -36,18 +54,15 @@ struct DriverApplyView: View {
                         .font(.system(size: 16))
                         
                     
-                    MemoView(title: "駕駛條款", content: membershipTerms)
-                    
-                    CheckBoxView(id: "1",
-                                 label: "我已詳閱並同意駕駛條款",
-                                 size: 24,
-                                 textSize: TITLE_FONT_SIZE,
-                                 callback: checkboxSelected)
-                    .padding(20)
+                    MemoView(title: "駕駛條款", content: membershipTerms, isChecked: $isChecked, validationTip: $termsTip)
                     
                     NavigationLink(value: "DriverIDImageView") {
                         Button(action: {
                             print("Next button Clicked")
+                            if(!driverTermsValidation()) {
+                                return
+                            }
+                            
                             router.navPath.append("DriverIDImageView")
                         }) {
                             Text("下一步")
@@ -55,6 +70,7 @@ struct DriverApplyView: View {
                         .buttonStyle(ActiveCapsuleButtonStyle())
                         .padding([.top], 20)
                     }
+                    //.buttonStyle(.plain)
                     
                     Button(action: {
                         router.navPath = NavigationPath()
@@ -73,12 +89,23 @@ struct DriverApplyView: View {
         .navigationTitle("")
         .navigationBarHidden(true)
     }
+    
+    func driverTermsValidation() -> Bool {
+        var result: Bool = true
+
+        termsTip = !self.isChecked ? DriverTermsTip.termsOK.text : DriverTermsTip.na.text
+        result = !self.isChecked ? false : true
+
+        return result
+    }
 }
 
 struct DriverApplyView_Previews: PreviewProvider {
     static var previews: some View {
-        DriverApplyView()
-            .environmentObject(Router())
-            .environmentObject(RegisterUser())
+        NavigationStack {
+            DriverApplyView()
+                .environmentObject(Router())
+                .environmentObject(RegisterUser())
+        }
     }
 }

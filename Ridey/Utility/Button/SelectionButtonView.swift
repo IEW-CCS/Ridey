@@ -13,13 +13,14 @@ struct SelectionButtonView: View {
     @Binding var buttonText: String
     var width: CGFloat = .infinity
     @Binding var isPressed: Bool
-    
+    @Binding var validationTip: String
+
     var body: some View {
         VStack(alignment: .leading) {
             if(isTitleDisplay) {
                 Text(self.title)
                     .font(.system(size: HEADER2_FONT_SIZE))
-                    .padding([.leading, .trailing], 30)
+                    .padding([.leading, .trailing], 20)
             }
 
             Button(action: { self.isPressed = !self.isPressed }) {
@@ -43,6 +44,14 @@ struct SelectionButtonView: View {
                 RoundedRectangle(cornerRadius: 5.0)
                     .stroke(TEXTEDITOR_BRODER_COLOR_GRAY, lineWidth: 1.5))
             .padding([.leading, .trailing], 20)
+            
+            if(!validationTip.isEmpty) {
+                Text(validationTip)
+                    .font(.system(size: BODY_FONT_SIZE))
+                    .foregroundColor(BACKGROUND_COLOR_ORANGE)
+                    .padding([.leading, .trailing], 20)
+            }
+
         }
         
     }
@@ -50,6 +59,6 @@ struct SelectionButtonView: View {
 
 struct SelectionButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        SelectionButtonView(title: "567", buttonText: .constant("1234"), isPressed: .constant(false))
+        SelectionButtonView(title: "567", buttonText: .constant("1234"), isPressed: .constant(false), validationTip: .constant("Test Tip"))
     }
 }

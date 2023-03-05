@@ -11,10 +11,31 @@ struct DriverCarDataView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
     
-    @State var carBrand: String = ""
-    @State var isCarBrandDisplay: Bool = false
-    @State var carYear: String = ""
-    @State var carNumber: String = ""
+    @State private var isCarBrandDisplay: Bool = false
+
+    @State private var carBrand: String = ""
+    @State private var carYear: String = ""
+    @State private var carNumber: String = ""
+    @State private var carBrandTip: String = ""
+    @State private var carYearTip: String = ""
+    @State private var carNumberTip: String = ""
+
+    enum CarValidationTip: Int {
+        case na = 0
+        case carbrand = 1
+        case caryear = 2
+        case carnumber = 3
+        
+        var text: String {
+            switch self {
+                case .na: return ""
+                case .carbrand: return "請選擇車輛廠牌"
+                case .caryear: return "請輸入車輛出廠年份"
+                case .carnumber: return "請輸入車牌號碼"
+            }
+        }
+    }
+
     
     var body: some View {
         VStack {
@@ -37,13 +58,13 @@ struct DriverCarDataView: View {
                         .font(.system(size: 16))
                     
                     VStack {
-                        SelectionButtonView(title: "車輛廠牌", buttonText: $carBrand, isPressed: $isCarBrandDisplay)
+                        SelectionButtonView(title: "車輛廠牌", buttonText: $carBrand, isPressed: $isCarBrandDisplay, validationTip: $carBrandTip)
                         
-                        TitleTextEditorView(title: "車輛出廠年份（民國年）", inputText: $carYear)
+                        TitleTextEditorView(title: "車輛出廠年份（民國年）", inputText: $carYear, validationTip: $carYearTip)
                             .padding([.top], 15)
                             .keyboardType(.numberPad)
      
-                        TitleTextEditorView(title: "車牌號碼", inputText: $carNumber)
+                        TitleTextEditorView(title: "車牌號碼", inputText: $carNumber, validationTip: $carNumberTip)
                             .padding([.top], 15)
                             .keyboardType(.default)
                     }
@@ -92,6 +113,10 @@ struct DriverCarDataView: View {
                         NavigationLink(value: "DriverCompleteView") {
                             Button(action: {
                                 print("Ignore button Clicked")
+                                if(!carValidation()) {
+                                    return
+                                }
+                                
                                 router.navPath.append("DriverCompleteView")
                             }) {
                                 Text("儲存")
@@ -116,6 +141,22 @@ struct DriverCarDataView: View {
 
         .navigationTitle("")
         .navigationBarHidden(true)
+    }
+    
+    func carValidation() -> Bool {
+        var result: Bool = true
+
+        carBrandTip = self.carBrand.isEmpty ? CarValidationTip.carbrand.text : CarValidationTip.na.text
+        result = self.carBrand.isEmpty ? false : true
+
+        carYearTip = self.carYear.isEmpty ? CarValidationTip.caryear.text : CarValidationTip.na.text
+        result = self.carYear.isEmpty ? false : true
+
+        carNumberTip = self.carNumber.isEmpty ? CarValidationTip.carnumber.text : CarValidationTip.na.text
+        result = self.carNumber.isEmpty ? false : true
+
+        return result
+
     }
 }
 

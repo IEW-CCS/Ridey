@@ -19,9 +19,8 @@
 		3626697929867EC500977A4B /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3626697829867EC500977A4B /* TestData.swift */; };
 		3626697B29868BCE00977A4B /* MemberMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3626697A29868BCE00977A4B /* MemberMainView.swift */; };
 		3626697D2986AC5800977A4B /* MemberNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3626697C2986AC5800977A4B /* MemberNavBar.swift */; };
-		3661E71029AB84D400376B18 /* AuthenticationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661E70F29AB84D400376B18 /* AuthenticationAPI.swift */; };
+		3661E71029AB84D400376B18 /* AuthSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661E70F29AB84D400376B18 /* AuthSignup.swift */; };
 		3661E71229AB851A00376B18 /* WebUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661E71129AB851A00376B18 /* WebUtility.swift */; };
-		3661E71529AB887F00376B18 /* AuthenticationStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661E71429AB887F00376B18 /* AuthenticationStruct.swift */; };
 		36622CC4298886CB00360F8D /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36622CC3298886CB00360F8D /* Colors.xcassets */; };
 		36622CCB29935FCA00360F8D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36622CCA29935FCA00360F8D /* LoginView.swift */; };
 		36622CCE299367A200360F8D /* RideyTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36622CCD299367A200360F8D /* RideyTitleView.swift */; };
@@ -79,6 +78,8 @@
 		36CDC4F7299F42D50024A57C /* DriverBriefInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CDC4F6299F42D50024A57C /* DriverBriefInformationView.swift */; };
 		36CDC4F9299F42FA0024A57C /* TripDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CDC4F8299F42FA0024A57C /* TripDescriptionView.swift */; };
 		36CDC4FB29A073A60024A57C /* RideyLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CDC4FA29A073A50024A57C /* RideyLogoView.swift */; };
+		36E0DDF429B165820072867B /* StandardAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0DDF329B165820072867B /* StandardAlert.swift */; };
+		36E0DDF629B170EF0072867B /* AuthLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E0DDF529B170EF0072867B /* AuthLogin.swift */; };
 		36E870D029A59F3F00CF9740 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E870CF29A59F3F00CF9740 /* ChatListView.swift */; };
 		36E870D229A59F5400CF9740 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E870D129A59F5400CF9740 /* ChatDetailView.swift */; };
 		36E870D429A5BCA900CF9740 /* ReceiveMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E870D329A5BCA900CF9740 /* ReceiveMessageCell.swift */; };
@@ -99,9 +100,8 @@
 		3626697829867EC500977A4B /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		3626697A29868BCE00977A4B /* MemberMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberMainView.swift; sourceTree = "<group>"; };
 		3626697C2986AC5800977A4B /* MemberNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberNavBar.swift; sourceTree = "<group>"; };
-		3661E70F29AB84D400376B18 /* AuthenticationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAPI.swift; sourceTree = "<group>"; };
+		3661E70F29AB84D400376B18 /* AuthSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSignup.swift; sourceTree = "<group>"; };
 		3661E71129AB851A00376B18 /* WebUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUtility.swift; sourceTree = "<group>"; };
-		3661E71429AB887F00376B18 /* AuthenticationStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationStruct.swift; sourceTree = "<group>"; };
 		36622CC3298886CB00360F8D /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		36622CCA29935FCA00360F8D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		36622CCD299367A200360F8D /* RideyTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideyTitleView.swift; sourceTree = "<group>"; };
@@ -159,6 +159,8 @@
 		36CDC4F6299F42D50024A57C /* DriverBriefInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverBriefInformationView.swift; sourceTree = "<group>"; };
 		36CDC4F8299F42FA0024A57C /* TripDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDescriptionView.swift; sourceTree = "<group>"; };
 		36CDC4FA29A073A50024A57C /* RideyLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideyLogoView.swift; sourceTree = "<group>"; };
+		36E0DDF329B165820072867B /* StandardAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardAlert.swift; sourceTree = "<group>"; };
+		36E0DDF529B170EF0072867B /* AuthLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLogin.swift; sourceTree = "<group>"; };
 		36E870CF29A59F3F00CF9740 /* ChatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
 		36E870D129A59F5400CF9740 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		36E870D329A5BCA900CF9740 /* ReceiveMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveMessageCell.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		3626696C2986236B00977A4B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				36E0DDF229B165580072867B /* Alert */,
 				36CDC4CD299C6D4B0024A57C /* TripInfo */,
 				36CDC4CC299C51020024A57C /* MemberUtility */,
 				36622CCC2993677F00360F8D /* StaticView */,
@@ -263,8 +266,8 @@
 		3661E71329AB884500376B18 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				3661E71429AB887F00376B18 /* AuthenticationStruct.swift */,
-				3661E70F29AB84D400376B18 /* AuthenticationAPI.swift */,
+				3661E70F29AB84D400376B18 /* AuthSignup.swift */,
+				36E0DDF529B170EF0072867B /* AuthLogin.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -344,9 +347,9 @@
 			isa = PBXGroup;
 			children = (
 				36622CCF2993CB8000360F8D /* HeaderTextView.swift */,
-				36622CD429946A8600360F8D /* BasicTextEditorView.swift */,
 				36622CD8299492AE00360F8D /* CapsuleLabelView.swift */,
 				36622CDA2994976E00360F8D /* MemoView.swift */,
+				36622CD429946A8600360F8D /* BasicTextEditorView.swift */,
 				36622CE12995290E00360F8D /* TitleTextEditorView.swift */,
 				36622CFC2999DFAA00360F8D /* TitleSelectionTextEditorView.swift */,
 			);
@@ -465,6 +468,14 @@
 			children = (
 			);
 			path = Scoring;
+			sourceTree = "<group>";
+		};
+		36E0DDF229B165580072867B /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				36E0DDF329B165820072867B /* StandardAlert.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -587,6 +598,7 @@
 				36CDC4D3299C6DF80024A57C /* TripHistoryView.swift in Sources */,
 				36A8A6F829A3C479003EE065 /* MapLocationView.swift in Sources */,
 				36A8A6FF29A509FF003EE065 /* ChatTripApplyFunctionView.swift in Sources */,
+				36E0DDF429B165820072867B /* StandardAlert.swift in Sources */,
 				36CDC4CF299C6DD00024A57C /* TripInfoView.swift in Sources */,
 				36A8A6FD29A5095C003EE065 /* ChatNavBar.swift in Sources */,
 				36622CCB29935FCA00360F8D /* LoginView.swift in Sources */,
@@ -599,7 +611,6 @@
 				36CDC4FB29A073A60024A57C /* RideyLogoView.swift in Sources */,
 				36622CEF2996269D00360F8D /* DriverIDImageView.swift in Sources */,
 				36CDC4EF299E568E0024A57C /* CustomSegmentedView3.swift in Sources */,
-				3661E71529AB887F00376B18 /* AuthenticationStruct.swift in Sources */,
 				3626696629855D9A00977A4B /* Ridey.xcdatamodeld in Sources */,
 				36622CF5299626E800360F8D /* DriverCompleteView.swift in Sources */,
 				36CDC4EC299DFDBF0024A57C /* TripPossibleMatchView.swift in Sources */,
@@ -609,7 +620,8 @@
 				36CDC4E7299DFD070024A57C /* TripApplyView.swift in Sources */,
 				36622CF3299626CE00360F8D /* DriverCarDataView.swift in Sources */,
 				36CDC4F1299E56A30024A57C /* CustomSegmentedView4.swift in Sources */,
-				3661E71029AB84D400376B18 /* AuthenticationAPI.swift in Sources */,
+				36E0DDF629B170EF0072867B /* AuthLogin.swift in Sources */,
+				3661E71029AB84D400376B18 /* AuthSignup.swift in Sources */,
 				36CDC4DB299CD4070024A57C /* MemberTakenPlanListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

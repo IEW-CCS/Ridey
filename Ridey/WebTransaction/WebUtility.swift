@@ -9,6 +9,7 @@ import Foundation
 
 let webURL: String = "https://backend.ridey.today/v1/"
 let AUTH_SIGNUP = "auth/signup"
+let AUTH_LOGIN = "auth/login"
 
 
 extension URLSession {
@@ -28,7 +29,7 @@ extension URLSession {
     }
 }
 
-struct HttpError: Decodable, Error {
-    let code: String
-    let message: String
+struct HttpError: Codable {
+    var code: String = ""
+    var message: String = ""
 }

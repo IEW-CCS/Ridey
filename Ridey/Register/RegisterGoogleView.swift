@@ -11,8 +11,24 @@ struct RegisterGoogleView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
     
-    @State private var agreementChecked: Bool = false
-    
+    @State private var isChecked: Bool = false
+    @State private var terms: String = ""
+    @State private var termsTip: String = ""
+
+    enum RegisterGoogleTip: Int {
+        case na = 0
+        case termsNG = 1
+        case termsOK = 2
+        
+        var text: String {
+            switch self {
+                case .na: return ""
+                case .termsNG: return "請完整閱讀上方的會員條款"
+                case .termsOK: return "請勾選以進行下一步"
+            }
+        }
+    }
+
     var body: some View {
         VStack {
             //RideyTitleView()
@@ -33,18 +49,15 @@ struct RegisterGoogleView: View {
                         .padding(20)
                         .font(.system(size: 16))
                     
-                    MemoView(title: "會員條款", content: membershipTerms)
-                    
-                    CheckBoxView(id: "1",
-                                 label: "我已詳閱會員條款",
-                                 size: 24,
-                                 textSize: TITLE_FONT_SIZE,
-                                 callback: checkboxSelected)
-                    .padding(20)
-                    
+                    MemoView(title: "會員條款", content: membershipTerms, isChecked: $isChecked, validationTip: $termsTip)
+                                     
                     NavigationLink(value: "RegisterMemberView") {
                         Button(action: {
                             print("Register button Clicked")
+                            if(!registerGoogleValidation()) {
+                                return
+                            }
+                            
                             router.navPath.append("RegisterMemberView")
                         }) {
                             Text("註冊成為會員")
@@ -61,11 +74,17 @@ struct RegisterGoogleView: View {
         .navigationBarHidden(true)
         
     }
+    
+    func registerGoogleValidation() -> Bool {
+        var result: Bool = true
+
+        termsTip = !self.isChecked ? RegisterGoogleTip.termsOK.text : RegisterGoogleTip.na.text
+        result = !self.isChecked ? false : true
+
+        return result
+    }
 }
 
-func checkboxSelected(id: String, isMarked: Bool) {
-        print("\(id) is marked: \(isMarked)")
-}
 
 struct RegisterGoogleView_Previews: PreviewProvider {
     static var previews: some View {

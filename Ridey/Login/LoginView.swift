@@ -13,15 +13,35 @@ struct LoginView: View {
     @EnvironmentObject var router: Router
     @EnvironmentObject var registerUser: RegisterUser
 
-    @State var email: String = ""
-    @State var pwd: String = ""
+    @State private var isAlertPresented: Bool = false
+    //@State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
+    
+    @State private var email: String = ""
+    @State private var pwd: String = ""
+    @State private var emailTip: String = ""
+    @State private var pwdTip: String = ""
+    
+    @FocusState private var focusField: FocusField?
     
     enum FocusField {
         case email, password
     }
     
-    @FocusState private var focusField: FocusField?
-    
+    enum LoginValidationTip: Int {
+        case na = 0
+        case email = 1
+        case pwd = 2
+        
+        var text: String {
+            switch self {
+                case .na: return ""
+                case .email: return "請輸入電子信箱"
+                case .pwd: return "請輸入密碼"
+            }
+        }
+    }
+
     
     var body: some View {
         VStack(alignment: .leading){
@@ -55,12 +75,11 @@ struct LoginView: View {
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding([.top, .bottom], 20)
             
-            BasicTextEditorView(inputText: $email, placeHolder: .constant("電子郵件"))
+            BasicTextEditorView(inputText: $email, placeHolder: .constant("電子郵件"), validationTip: $emailTip)
                 .focused($focusField, equals: .email)
                 .keyboardType(.emailAddress)
-
             
-            BasicTextEditorView(inputText: $pwd, placeHolder: .constant("密碼"))
+            BasicTextEditorView(isSecured: true, inputText: $pwd, placeHolder: .constant("密碼"), validationTip: $pwdTip)
                 .focused($focusField, equals: .password)
                 .padding([.top], 15)
                 .keyboardType(.default)
@@ -71,27 +90,34 @@ struct LoginView: View {
                 NavigationLink(value: "RegisterEMailView") {
                     Button(action: {
                         print("Register Email button Clicked")
-                        
-                        httpAuthSignUp(signup: HttpAuthSignup(email: "roboood84@gmail.com", password: "12345678"), signUpCallback:  { reply in
-                            if(reply == nil) {
-                                
-                            } else {
-                                router.navPath.append("RegisterEMailView")
-                            }
-                        })
-                        //router.navPath.append("RegisterEMailView")
+                        router.navPath.append("RegisterEMailView")
                     }) {
                         Text("註冊會員")
                     }
                     .buttonStyle(CapsuleButtonStyle(width: 120))
                     .padding([.top, .bottom], 5)
                 }
-
+                .buttonStyle(.plain)
+                
                 Spacer()
                 
                 Button(action: {
-                    registerUser.setRegistered()
-                    self.presentationMode.wrappedValue.dismiss()
+                    if(!loginValidation()) {
+                        return
+                    }
+
+                    httpAuthLogin(login: HttpAuthLogin(email: email, password: pwd), loginCallback:  { (reply, error) in
+                        if(reply == nil) {
+                            print("httpAuthLogin failed")
+                            self.alertMessage = error.message
+                            isAlertPresented = true
+                        } else {
+                            registerUser.setRegistered()
+                            DispatchQueue.main.async {
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                    })
                 }) {
                     Text("登入")
                 }
@@ -109,20 +135,28 @@ struct LoginView: View {
         .onTapGesture {
             hideKeyboard()
         }
+        .alert("錯誤訊息", isPresented: $isAlertPresented, actions: {
+            
+        }, message: {
+            Text(alertMessage)
+        })
         .navigationTitle("")
         .navigationBarHidden(true)
     }
-}
+    
+    func loginValidation() -> Bool {
+        var result: Bool = true
 
-/*
-func httpAuthSignupReplyCallback(reply: HttpAuthSignupReply?) {
-    if(reply == nil) {
+        emailTip = self.email.isEmpty ? LoginValidationTip.email.text : LoginValidationTip.na.text
+        result = self.email.isEmpty ? false : true
+
+        pwdTip = self.pwd.isEmpty ? LoginValidationTip.pwd.text : LoginValidationTip.na.text
+        result = self.pwd.isEmpty ? false : true
         
-    } else {
-        
+        return result
     }
+
 }
-*/
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {

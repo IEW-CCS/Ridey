@@ -143,3 +143,77 @@ struct backGesture: ViewModifier {
 
       }
 }
+
+struct ScrollViewOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGPoint = .zero
+    
+    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
+        value = nextValue()
+        print("value = \(value)")
+    }
+    
+    typealias Value = CGPoint
+}
+
+struct TextSizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+        print("value = \(value)")
+    }
+    
+    typealias Value = CGSize
+}
+
+struct TextSizeModifier: ViewModifier  {
+    let coordinateSpace: String
+    @Binding var size: CGSize
+    
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+            GeometryReader { proxy in
+                //let x = proxy.frame(in: .named(coordinateSpace)).minX
+                //let y = proxy.frame(in: .named(coordinateSpace)).minY
+                //Color.clear.preference(key: TextSizePreferenceKey.self, value: CGSize(width: x, height: y))
+                Color.clear.preference(key: TextSizePreferenceKey.self, value: proxy.size)
+            }
+        }
+        .onPreferenceChange(TextSizePreferenceKey.self) { value in
+            size = value
+        }
+    }
+}
+
+struct ScrollViewOffsetModifier: ViewModifier {
+    let coordinateSpace: String
+    @Binding var offset: CGPoint
+    
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+            GeometryReader { proxy in
+                //let x = proxy.frame(in: .named(coordinateSpace)).minX
+                //let y = proxy.frame(in: .named(coordinateSpace)).minY
+                let x = proxy.frame(in: .named(coordinateSpace)).origin.x
+                let y = proxy.frame(in: .named(coordinateSpace)).origin.y
+                Color.clear.preference(key: ScrollViewOffsetPreferenceKey.self, value: CGPoint(x: x * -1, y: y * -1))
+            }
+        }
+        .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
+            offset = value
+        }
+    }
+}
+
+extension View {
+    func readingScrollView(from coordinateSpace: String, into binding: Binding<CGPoint>) -> some View {
+        modifier(ScrollViewOffsetModifier(coordinateSpace: coordinateSpace, offset: binding))
+    }
+    
+    func readingTextSize(from coordinateSpace: String, into binding: Binding<CGSize>) -> some View {
+        modifier(TextSizeModifier(coordinateSpace: coordinateSpace, size: binding))
+    }
+}
+

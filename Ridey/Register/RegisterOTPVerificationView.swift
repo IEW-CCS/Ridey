@@ -11,9 +11,25 @@ struct RegisterOTPVerificationView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
     
-    @State var phoneNumber: String = ""
-    @State var otpCode: String = ""
+    @State private var phoneNumber: String = ""
+    @State private var otpCode: String = ""
+    @State private var phoneNumberTip: String = ""
+    @State private var otpCodeTip: String = ""
     
+    enum OTPValidationTip: Int {
+        case na = 0
+        case phonenumber = 1
+        case otp = 2
+        
+        var text: String {
+            switch self {
+                case .na: return ""
+                case .phonenumber: return "請輸入手機號碼"
+                case .otp: return "請輸入驗證碼"
+            }
+        }
+    }
+
     var body: some View {
         VStack {
             //RideyTitleView()
@@ -36,7 +52,7 @@ struct RegisterOTPVerificationView: View {
                     
                     
                     HStack(alignment: .bottom) {
-                        TitleTextEditorView(title: "手機聯絡號碼", inputText: $phoneNumber)
+                        TitleTextEditorView(title: "手機聯絡號碼", inputText: $phoneNumber, validationTip: $phoneNumberTip)
                             .keyboardType(.numberPad)
                         
                         Button(action: { print("Button Clicked") }) {
@@ -56,13 +72,17 @@ struct RegisterOTPVerificationView: View {
                     }
                     .padding([.top], 15)
                     
-                    TitleTextEditorView(title: "驗證碼", inputText: $otpCode, width: 120)
+                    TitleTextEditorView(title: "驗證碼", inputText: $otpCode, width: 120, validationTip: $otpCodeTip)
                         .padding([.top], 15)
                         .keyboardType(.numberPad)
                     
                     NavigationLink(value: "RegisterMemberView") {
                         Button(action: {
                             print("Next button Clicked")
+                            if(!otpValidation()) {
+                                return
+                            }
+                            
                             router.navPath.append("RegisterMemberView")
                         }) {
                             Text("下一步")
@@ -81,10 +101,22 @@ struct RegisterOTPVerificationView: View {
         .onTapGesture {
             hideKeyboard()
         }
-
         .navigationTitle("")
         .navigationBarHidden(true)
     }
+    
+    func otpValidation() -> Bool {
+        var result: Bool = true
+
+        phoneNumberTip = self.phoneNumber.isEmpty ? OTPValidationTip.phonenumber.text : OTPValidationTip.na.text
+        result = self.phoneNumber.isEmpty ? false : true
+
+        otpCodeTip = self.otpCode.isEmpty ? OTPValidationTip.otp.text : OTPValidationTip.na.text
+        result = self.otpCode.isEmpty ? false : true
+        
+        return result
+    }
+
 }
 
 struct RegisterOTPVerificationView_Previews: PreviewProvider {

@@ -91,11 +91,27 @@ struct CreateTripView: View {
                         .padding([.top], 10)
                         .padding([.bottom], 3)
                
-                    Text("4位")
-                        .font(.system(size: HEADER2_FONT_SIZE))
-                        .bold()
-                        .padding([.leading, .trailing], 10)
-                        .padding([.bottom], 10)
+                    HStack {
+                        Button(action: {  }) {
+                            HStack {
+                                Image(systemName: "arrowtriangle.down.fill")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .foregroundColor(STACK_BORDER_COLOR_GRAY)
+                                    .background(STACK_BACKGROUND_COLOR_GRAY)
+                                    .frame(width: 14, height:14)
+                            }
+                            .foregroundColor(STACK_BORDER_COLOR_GRAY)
+                            //.padding([.leading, .trailing], 20)
+                            .padding([.bottom], 10)
+                        }
+
+                        Text("4  位")
+                            .font(.system(size: HEADER2_FONT_SIZE))
+                            .bold()
+                            .padding([.leading, .trailing], 10)
+                            .padding([.bottom], 10)
+                    }
                 }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .cornerRadius(5)
@@ -133,7 +149,7 @@ struct CreateTripView: View {
                         //    .padding([.bottom], 20)
                         //    .frame(width: 2, height: 20)
                         //    .overlay(STACK_BORDER_COLOR_GRAY)
-                        Text("3件")
+                        Text("3  件")
                             .font(.system(size: HEADER2_FONT_SIZE))
                             .bold()
                             .padding([.leading, .trailing], 10)

@@ -15,7 +15,7 @@ struct RegisterEMailVerificationView: View {
         VStack {
             //RideyTitleView()
             RideyLogoView(backHandler: { self.presentationMode.wrappedValue.dismiss() })
-            
+
             ScrollView {
                 VStack {
                     Image("mail_icon")
