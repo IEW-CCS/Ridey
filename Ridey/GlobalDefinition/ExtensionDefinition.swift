@@ -1,5 +1,5 @@
 //
-//  StructureDefinition.swift
+//  ExtensionDefinition.swift
 //  Ridey
 //
 //  Created by Lo Fang Chou on 2023/1/29.

@@ -12,9 +12,9 @@ struct LoginView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
     @EnvironmentObject var registerUser: RegisterUser
+    @EnvironmentObject var userAuthInfo: UserAuthInfo
 
     @State private var isAlertPresented: Bool = false
-    //@State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
     
     @State private var email: String = ""
@@ -74,22 +74,23 @@ struct LoginView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity)
             .padding([.top, .bottom], 20)
-            
+
             BasicTextEditorView(inputText: $email, placeHolder: .constant("電子郵件"), validationTip: $emailTip)
                 .focused($focusField, equals: .email)
                 .keyboardType(.emailAddress)
-            
+
             BasicTextEditorView(isSecured: true, inputText: $pwd, placeHolder: .constant("密碼"), validationTip: $pwdTip)
                 .focused($focusField, equals: .password)
                 .padding([.top], 15)
                 .keyboardType(.default)
-            
+
             HStack {
                 Spacer()
-                
+
                 NavigationLink(value: "RegisterEMailView") {
                     Button(action: {
                         print("Register Email button Clicked")
+                        initializeUserAuthInfo()
                         router.navPath.append("RegisterEMailView")
                     }) {
                         Text("註冊會員")
@@ -102,6 +103,7 @@ struct LoginView: View {
                 Spacer()
                 
                 Button(action: {
+                    print("Login button Clicked")
                     if(!loginValidation()) {
                         return
                     }
@@ -155,7 +157,17 @@ struct LoginView: View {
         
         return result
     }
-
+    
+    func initializeUserAuthInfo() {
+        print("Initialize UserAuthInfo.")
+        self.userAuthInfo.userId = ""
+        self.userAuthInfo.userToken = ""
+        self.userAuthInfo.email = ""
+        self.userAuthInfo.password = ""
+        self.userAuthInfo.phoneNumber = ""
+        self.userAuthInfo.memberSignupStatus = ""
+        self.userAuthInfo.driverApplyStatus = ""
+    }
 }
 
 struct LoginView_Previews: PreviewProvider {
@@ -164,6 +176,7 @@ struct LoginView_Previews: PreviewProvider {
             LoginView()
                 .environmentObject(Router())
                 .environmentObject(RegisterUser())
+                .environmentObject(UserAuthInfo())
         }
         
     }

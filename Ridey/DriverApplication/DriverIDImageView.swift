@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct DriverIDImageView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>

@@ -10,6 +10,16 @@ import Foundation
 let webURL: String = "https://backend.ridey.today/v1/"
 let AUTH_SIGNUP = "auth/signup"
 let AUTH_LOGIN = "auth/login"
+let AUTH_SEND_VERIFICATION_MAIL = "auth/send-verification-email"
+let AUTH_SEND_VERIFICATION_SMS = "auth/send-verification-sms"
+let AUTH_VERIFY_MAIL = "auth/verify-email"
+let AUTH_VERIFY_SMS = "auth/verify-sms"
+let AUTH_PERSONAL_DATA = "auth/personal-data"
+let AUTH_DRIVER_INFO = "auth/driver-info"
+let AUTH_VEHICLE_INFO = "auth/vehicle-info"
+
+let AUTH_TEST = "auth/test123"
+
 
 
 extension URLSession {

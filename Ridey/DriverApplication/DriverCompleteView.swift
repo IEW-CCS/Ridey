@@ -29,13 +29,13 @@ struct DriverCompleteView: View {
                         .padding([.top], 50)
                     
                     Text("感謝您申請成為共乘駕駛")
-                        .font(.system(size: 30))
+                        .font(.system(size: EXTREME_LARGE_TITLE_FONT_SIZE))
                         .bold()
                         .padding([.top], 80)
                     
                     Text(DRIVER_COMPLETE_WELCOME_DESCRIPTION)
                         .padding(20)
-                        .font(.system(size: 16))
+                        .font(.system(size: HEADER_FONT_SIZE))
                     
                     Button(action: {
                         registerUser.setRegistered()

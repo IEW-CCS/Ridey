@@ -49,7 +49,7 @@ struct BasicTextEditorView: View {
                     .submitLabel(.done)
                     .focused($isFocused)
             }
-            
+
             if(!validationTip.isEmpty) {
                 Text(validationTip)
                     .font(.system(size: BODY_FONT_SIZE))

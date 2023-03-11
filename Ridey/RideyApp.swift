@@ -12,6 +12,8 @@ struct RideyApp: App {
     @StateObject private var router = Router()
     @StateObject private var registerUser = RegisterUser()
     
+    var userAuthInfo = UserAuthInfo()
+    
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
@@ -22,6 +24,7 @@ struct RideyApp: App {
             }
             .environmentObject(router)
             .environmentObject(registerUser)
+            .environmentObject(userAuthInfo)
         }
     }
 }

@@ -53,7 +53,7 @@ struct MemoView: View {
 
                 .onChange(of: scrollOffset, perform: { value in
                     if((value.y + scrollSize.height + 1 - contentSize.height) >= 0) {
-                        print("Offset = \(value.y + scrollSize.height + 1 - contentSize.height)")
+                        //print("Offset = \(value.y + scrollSize.height + 1 - contentSize.height)")
                         isBottomReached = true
                         validationTip = ""
                     }

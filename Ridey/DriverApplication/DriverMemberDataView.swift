@@ -26,6 +26,7 @@ struct DriverMemberDataView: View {
     @State private var driverFavorite: String = ""
     @State private var driverSmoke: String = ""
     @State private var driverPet: String = ""
+    
     @State private var driverIntroductionTip: String = ""
     @State private var driverExxperienceTip: String = ""
     @State private var driverFavoriteTip: String = ""
@@ -125,7 +126,7 @@ struct DriverMemberDataView: View {
                             .padding([.leading, .trailing], 20)
                             .padding([.top], 15)
                         
-                        CustomSegmentedView4(selectedSegment: $selectedSmokingTab, segments: ["有", "無", "未指定"], validationTip: $driverSmokeTip)
+                        CustomSegmentedView4(selectedSegment: $selectedSmokingTab, segments: ["有", "無", "未指定"], value: $driverSmoke, validationTip: $driverSmokeTip)
                             .padding([.leading, .trailing], 20)
                     }
                     
@@ -135,7 +136,7 @@ struct DriverMemberDataView: View {
                             .padding([.leading, .trailing], 20)
                             .padding([.top], 15)
                         
-                        CustomSegmentedView4(selectedSegment: $selectedPetTab, segments: ["是", "否", "未指定"], validationTip: $driverPetTip)
+                        CustomSegmentedView4(selectedSegment: $selectedPetTab, segments: ["是", "否", "未指定"], value: $driverPet, validationTip: $driverPetTip)
                             .padding([.leading, .trailing], 20)
                     }
                     

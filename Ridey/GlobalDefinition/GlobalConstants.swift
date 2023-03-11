@@ -42,11 +42,12 @@ let BORDER_COLOR_BLACK = Color("Border_Color_Black")
 let BORDER_COLOR_WHITE = Color("Border_Color_White")
 let CHAT_BACKGROUND_COLOR = Color("Chat_Background_Color")
 
-let ICON_FOREGROUND_COLOR = Color("Chat_Background_Color")
+let ICON_FOREGROUND_COLOR = Color("Icon_Foreground_Color")
 
 let NORMAL_BUTTON_FONT_SIZE: CGFloat = 18
 
 /* Font size definition */
+let EXTREME_LARGE_TITLE_FONT_SIZE: CGFloat = 30
 let LARGE_TITLE_FONT_SIZE: CGFloat = 24
 let TITLE_FONT_SIZE: CGFloat = 20
 let HEADER_FONT_SIZE: CGFloat = 18
@@ -57,3 +58,38 @@ let BODY3_FONT_SIZE: CGFloat = 10
 let BODY4_FONT_SIZE: CGFloat = 8
 
 var isRegisterUser: Bool = false
+
+enum MemberSignupStatus: Int {
+    case start = 0
+    case verify_email = 1
+    case verify_sms = 2
+    case member_data = 3
+    case complete = 4
+    
+    var text: String {
+        switch self {
+            case .start: return "SIGNUP_START"
+            case .verify_email: return "VERIFY_EMAIL"
+            case .verify_sms: return "VERIFY_OTP"
+            case .member_data: return "MEMBER_DATA"
+            case .complete: return "SIGNUP_COMPLETE"
+        }
+    }
+}
+
+enum DriverApplyStatus: Int  {
+    case start = 0
+    case driver_data = 1
+    case vehicle_data = 2
+    case complete = 3
+    
+    var text: String {
+        switch self {
+        case .start: return "APPLY_START"
+        case .driver_data: return "DRIVER_DATA"
+        case .vehicle_data: return "VEHICLE_DATA"
+        case .complete: return "APPLY_COMPLETE"
+        }
+    }
+    
+}

@@ -10,7 +10,7 @@ import CoreData
 
 struct ContentView: View {
     @EnvironmentObject var router: Router
-    @EnvironmentObject var registerUser: RegisterUser
+    @EnvironmentObject var userAuthInfo: UserAuthInfo
 
     @State private var presentAlert = false
     @State private var alertMessage = ""
@@ -25,7 +25,7 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    if(registerUser.isRegisterUser) {
+                    if(!userAuthInfo.userId.isEmpty && userAuthInfo.memberSignupStatus == MemberSignupStatus.complete.text) {
                         NavigationLink(value: "MemberMainView") {
                             Image("spider_man")
                                 .resizable()
@@ -76,7 +76,7 @@ struct ContentView: View {
                                 .clipShape(Circle()).overlay(RoundedRectangle(cornerRadius: 30.0)
                                         .stroke(BUTTON_COLOR_ORANGE, lineWidth: 2))
                         }
-                        
+
                         Spacer()
                         Image("hall_icon")
                             .resizable()
@@ -121,14 +121,10 @@ struct ContentView: View {
                 RegisterGoogleView()
             } else if(viewName == "RegisterEMailView") {
                 RegisterEMailView()
-            } else if(viewName == "RegisterEMailVerificationView") {
-                RegisterEMailVerificationView()
-            } else if(viewName == "RegisterOTPVerificationView") {
-                RegisterOTPVerificationView()
-            } else if(viewName == "RegisterMemberView") {
-                RegisterMemberView()
-            } else if(viewName == "RegisterCompleteView") {
-                RegisterCompleteView()
+            //} else if(viewName == "RegisterMemberView") {
+            //    RegisterMemberView()
+            //} else if(viewName == "RegisterCompleteView") {
+            //    RegisterCompleteView()
             } else if(viewName == "DriverApplyView") {
                 DriverApplyView()
             } else if(viewName == "DriverIDImageView") {
@@ -148,17 +144,15 @@ struct ContentView: View {
         .onTapGesture {
             hideKeyboard()
         }
-
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ContentView()
                 .environmentObject(Router())
-                .environmentObject(RegisterUser())
+                .environmentObject(UserAuthInfo())
         }
         
     }

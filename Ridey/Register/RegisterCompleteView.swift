@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RegisterCompleteView: View {
+    @State var model: RegisterCompleteViewModel
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
     @EnvironmentObject var registerUser: RegisterUser
@@ -23,13 +25,13 @@ struct RegisterCompleteView: View {
             ScrollView {
                 VStack(alignment: .center) {
                     Text("歡迎加入 Ridey")
-                        .font(.system(size: 30))
+                        .font(.system(size: EXTREME_LARGE_TITLE_FONT_SIZE))
                         .bold()
                         .padding([.top], 80)
                     
                     Text(REGISTER_COMPLETE_DESCRIPTION)
                         .padding(20)
-                        .font(.system(size: 16))
+                        .font(.system(size: HEADER_FONT_SIZE))
                     
                     NavigationLink(value: "DriverApplyView") {
                         Button(action: {
@@ -44,8 +46,10 @@ struct RegisterCompleteView: View {
                     }
 
                     Button(action: {
-                        registerUser.setRegistered()
-                        router.navPath = NavigationPath()
+                        DispatchQueue.main.async {
+                            registerUser.setRegistered()
+                            router.navPath = NavigationPath()
+                        }
                     }) {
                         Text("返回首頁")
                     }
@@ -55,7 +59,6 @@ struct RegisterCompleteView: View {
                     
                     Spacer()
                 }
-                
             }
         }
         .navigationTitle("")
@@ -67,7 +70,7 @@ struct RegisterCompleteView: View {
 struct RegisterCompleteView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            RegisterCompleteView()
+            RegisterCompleteView(model: RegisterCompleteViewModel())
                 .environmentObject(Router())
                 .environmentObject(RegisterUser())
         }

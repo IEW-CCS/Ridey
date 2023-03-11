@@ -10,9 +10,9 @@ import SwiftUI
 struct RegisterEMailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var router: Router
+    @EnvironmentObject var userAuthInfo: UserAuthInfo
     
     @State private var isAlertPresented: Bool = false
-    //@State private var alertTitle: String = ""
     @State private var alertMessage: String = ""
 
     @State private var isChecked: Bool = false
@@ -25,6 +25,7 @@ struct RegisterEMailView: View {
     @State private var pwdTip: String = ""
     @State private var pwd2Tip: String = ""
     @State private var termsTip: String = ""
+    @State private var registerEMailVerificationViewModel: RegisterEMailVerificationViewModel = RegisterEMailVerificationViewModel()
 
     enum RegisterEmailTip: Int {
         case na = 0
@@ -80,9 +81,10 @@ struct RegisterEMailView: View {
                     MemoView(title: "會員條款", content: membershipTerms, isChecked: $isChecked, validationTip: $termsTip)
                         .padding([.top], 25)
                     
-                    NavigationLink(value: "RegisterEMailVerificationView") {
+                    NavigationLink(value: self.registerEMailVerificationViewModel) {
                         Button(action: {
                             print("Register button Clicked")
+                            
                             if(!registerEmailValidation()) {
                                 return
                             }
@@ -93,15 +95,31 @@ struct RegisterEMailView: View {
                                     self.alertMessage = error.message
                                     isAlertPresented = true
                                 } else {
-                                    router.navPath.append("RegisterEMailView")
+                                    print("httpAuthSignUp successful")
+                                    print("userAuthInfo.userToken = \(reply!.token)")
+                                    DispatchQueue.main.async {
+                                        userAuthInfo.userId = reply!.userId
+                                        userAuthInfo.userToken = reply!.token
+                                        userAuthInfo.email = self.email
+                                        userAuthInfo.password = self.pwd
+                                        userAuthInfo.memberSignupStatus = MemberSignupStatus.start.text
+
+                                        registerEMailVerificationViewModel.userId = userAuthInfo.userId
+                                        registerEMailVerificationViewModel.userToken = userAuthInfo.userToken
+                                        registerEMailVerificationViewModel.email = email
+
+                                        router.navPath.append(registerEMailVerificationViewModel)
+                                    }
                                 }
                             })
-                            //router.navPath.append("RegisterEMailVerificationView")
                         }) {
                             Text("註冊成為會員")
                         }
                         .buttonStyle(ActiveCapsuleButtonStyle())
                         .padding([.top, .bottom], 20)
+                    }
+                    .navigationDestination(for: RegisterEMailVerificationViewModel.self) { model in
+                        RegisterEMailVerificationView(model: model)
                     }
                     .buttonStyle(.plain)
 
@@ -115,9 +133,24 @@ struct RegisterEMailView: View {
         .onTapGesture {
             hideKeyboard()
         }
-
+        .alert("錯誤訊息", isPresented: $isAlertPresented, actions: {
+            
+        }, message: {
+            Text(alertMessage)
+        })
         .navigationTitle("")
         .navigationBarHidden(true)
+        
+        /*
+        .onAppear {
+            print("UserAuthInfo[userId] = \(self.userAuthInfo.userId)")
+            print("UserAuthInfo[userToken] = \(self.userAuthInfo.userToken)")
+            print("UserAuthInfo[email] = \(self.userAuthInfo.email)")
+            print("UserAuthInfo[password] = \(self.userAuthInfo.password)")
+            print("UserAuthInfo[phoneNumber] = \(self.userAuthInfo.phoneNumber)")
+            print("UserAuthInfo[memberSignupStatus] = \(self.userAuthInfo.memberSignupStatus)")
+            print("UserAuthInfo[driverApplyStatus] = \(self.userAuthInfo.driverApplyStatus)")
+        }*/
     }
     
     func registerEmailValidation() -> Bool {
@@ -154,6 +187,7 @@ struct RegisterEMailView_Previews: PreviewProvider {
             RegisterEMailView()
                 .environmentObject(Router())
                 .environmentObject(RegisterUser())
+                .environmentObject(UserAuthInfo())
         }
         
     }
